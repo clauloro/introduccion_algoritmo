@@ -1,11 +1,11 @@
-def calcular_interes(capital, tasa, meses):
-    interes = capital * tasa * meses / 12
+def intereses(func):
+    def wrapper(*args, **kwargs):
+        capital, tasa, tiempo = args
+        interes = capital * tasa * tiempo / 12
+        result = func(interes)
+        return result
+    return wrapper
+
+@intereses
+def calc_intereses(interes):
     return interes
-
-capital = float(input("Ingrese el capital invertido: "))
-tasa = float(input("Ingrese la tasa de interés: ")) / 100
-meses = int(input("Ingrese el tiempo de inversión en meses: "))
-
-interes = calcular_interes(capital, tasa, meses)
-
-print("El importe de los intereses es:", interes)

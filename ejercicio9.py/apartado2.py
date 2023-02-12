@@ -1,14 +1,20 @@
-def calcular_media_ponderada(num1, pond1, num2, pond2, num3, pond3):
-    media_ponderada = (num1 * pond1 + num2 * pond2 + num3 * pond3) / (pond1 + pond2 + pond3)
-    return media_ponderada
+def media_ponderada_decorador(func):
+    def wrapper(*args, **kwargs):
+        pesos = kwargs['pesos']
+        numeros = args
+        total = 0
+        for i in range(len(numeros)):
+            total += numeros[i] * pesos[i]
+        result = total / sum(pesos)
+        return result
+    return wrapper
 
-num1 = float(input("Ingrese el primer número: "))
-pond1 = float(input("Ingrese el coeficiente de ponderación para el primer número: "))
-num2 = float(input("Ingrese el segundo número: "))
-pond2 = float(input("Ingrese el coeficiente de ponderación para el segundo número: "))
-num3 = float(input("Ingrese el tercer número: "))
-pond3 = float(input("Ingrese el coeficiente de ponderación para el tercer número: "))
+@media_ponderada_decorador
+def media_ponderada(*args, **kwargs):
+    pass
 
-media_ponderada = calcular_media_ponderada(num1, pond1, num2, pond2, num3, pond3)
+numeros = [3, 5, 7]
+pesos = [2, 3, 4]
+resultado = media_ponderada(*numeros, pesos=pesos)
+print("La media ponderada es: ", resultado)
 
-print("La media ponderada es:", media_ponderada)

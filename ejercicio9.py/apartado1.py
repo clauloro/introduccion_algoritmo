@@ -1,11 +1,12 @@
-def calcular_media_aritmética(num1, num2, num3):
-    media_aritmetica = (num1 + num2 + num3) / 3
-    return media_aritmetica
+def deco_media(func):
+    def wrapper(*args):
+        return sum(args) / len(args)
+    return wrapper
 
-num1 = float(input("Ingrese el primer número: "))
-num2 = float(input("Ingrese el segundo número: "))
-num3 = float(input("Ingrese el tercer número: "))
+@deco_media
+def media(*args):
+    pass
 
-media_aritmetica = calcular_media_aritmética(num1, num2, num3)
+resultado = media(1, 2, 3)
+print(resultado) 
 
-print("La media aritmética es:", media_aritmetica)
