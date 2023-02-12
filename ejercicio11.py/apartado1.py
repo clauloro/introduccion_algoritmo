@@ -1,13 +1,21 @@
-def calcular_horas_extra(salario_mensual, horas_extra):
-    tarifa_hora = salario_mensual / (52 * 35)
-    if horas_extra <= 43:
-        tarifa_extra = tarifa_hora * 1.25
-    else:
-        tarifa_extra = tarifa_hora * 1.50
-    pago_horas_extra = tarifa_extra * horas_extra
-    return pago_horas_extra
+def calcular_horas_extra(funcion):
+    def wrapper(salario_mensual, horas_extra):
+        tarifa_hora = salario_mensual / (35 * 52) / 12
+        horas_normales = 8
+        horas_pagadas = horas_normales + horas_extra
+        
+        if horas_extra <= 8:
+            return funcion(tarifa_hora, horas_extra)
+        elif horas_extra > 8 and horas_extra <= 36:
+            return funcion(tarifa_hora, horas_extra) + (tarifa_hora * 0.25 * (horas_extra - 8))
+        elif horas_extra > 36 and horas_extra <= 43:
+            return funcion(tarifa_hora, horas_extra) + (tarifa_hora * 0.25 * 28) + (tarifa_hora * 0.5 * (horas_extra - 36))
+        elif horas_extra > 43:
+            return funcion(tarifa_hora, horas_extra) + (tarifa_hora * 0.25 * 28) + (tarifa_hora * 0.5 * 7) + (tarifa_hora * 0.75 * (horas_extra - 43))
+        
+    return wrapper
 
-salario_mensual = float(input("Introduce el salario mensual bruto: "))
-horas_extra = float(input("Introduce el número de horas extra: "))
-pago_horas_extra = calcular_horas_extra(salario_mensual, horas_extra)
-print("El pago por horas extra es de:", pago_horas_extra)
+@calcular_horas_extra
+def horas_pagadas(tarifa_hora, horas_extra):
+    return tarifa_hora * horas_extra
+
